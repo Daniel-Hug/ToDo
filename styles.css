@@ -1,0 +1,160 @@
+/* Basic cross-browser CSS reset
+-------------------------------------------*/
+
+	* { box-sizing: border-box; -moz-box-sizing: border-box }
+
+	a img { border: none }
+
+	html, body { min-height: 100% }
+
+	body {
+		margin: 0;
+		font: 16px Arial, Helvetica, sans-serif;
+	}
+
+
+html {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAARUlEQVQIW2P84Fv/j4mJmeHdu7cMbGxsDIyv3CuBAkwM//79YwABxnfetf9+/PjBABJkZmZmYHxoV/BPWFiE4ePHD2AVADjOFo09xb6XAAAAAElFTkSuQmCC);
+}
+
+/* Main containers
+-------------------------------------------*/
+
+#box, #add {
+	width: 640px;
+	border-radius: 8px;
+	box-shadow: 0 2px 5px rgba(0,0,0,.2);
+	margin: 60px auto;
+	padding: 24px;
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 45%, #ededed 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(45%,#f6f6f6), color-stop(100%,#ededed));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	background: linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+
+
+/* Add task form
+-------------------------------------------*/
+
+#new_task_name {
+	width: 426px;
+	box-shadow: inset 0 1px 3px rgba(0,0,0,.2);
+	float: left;
+}
+
+#add input {
+	padding: 12px;
+	margin: 0;
+	height: 40px;
+	border: none;
+	border-radius: 6px;
+}
+
+#add input[type="submit"] {
+	width: 141px;
+	margin-left: 24px;
+	box-shadow: inset 0 1px 1px rgba(255,255,255,.5), 0 1px 2px rgba(0,0,0,.25);
+	cursor: pointer;
+	text-shadow: 0 1px #fff;
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 45%, #ededed 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(45%,#f6f6f6), color-stop(100%,#ededed));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	background: linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+
+#add input[type="submit"]:active {
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.25);
+}
+
+
+/* ToDo list
+-------------------------------------------*/
+
+#title {
+	margin-top: 0;
+}
+
+#list {
+	counter-reset: li;
+	list-style: none;
+	*list-style: decimal;
+	padding: 0;
+	line-height: 42px;
+}
+
+/*
+@media screen {
+	#list li:before {
+		content: counter(li);
+		counter-increment: li;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, .8);
+		background: #19F;
+	}
+}*/
+
+#list li:before {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	margin-right: 12px;
+	font-size: 1.125em;
+	text-align: center;
+	line-height: 32px;
+	vertical-align: middle;
+}
+
+/* Print icon
+-------------------------------------------*/
+
+#printBtn {
+	display: block;
+	position: absolute;
+	top: 24px; right: 24px;
+	opacity: .5;
+	filter: alpha(opacity=50);
+
+	-webkit-transition: all 0.3s ease-out;
+	   -moz-transition: all 0.3s ease-out;
+	    -ms-transition: all 0.3s ease-out;
+	     -o-transition: all 0.3s ease-out;
+	        transition: all 0.3s ease-out;
+}
+
+#printBtn:hover {
+	opacity: .8;
+	filter: alpha(opacity=80);
+}
+
+
+/* Printer styles
+-------------------------------------------*/
+
+@media print {
+
+	html, #box { background: none }
+
+	#box {
+		margin: 0;
+		padding: 0;
+		box-shadow: none;
+	}
+
+	#printBtn, #add { display: none }
+
+	#title, #list { display: block }
+
+	#list li:before {
+		content: "";
+		list-style: inside url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAL0lEQVR42mNMTEz8z0BLQEsLQGYzMdAYjFowasGoBaMWjFowasGoBYPDAkZaN1sAWE4ItV4/wIUAAAAASUVORK5CYII=);
+	}
+
+}
