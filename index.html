@@ -3,61 +3,23 @@
 <head>
 	<meta charset="utf-8">
 	<title>ToDo</title>
-	<link rel="icon" href="favicon.ico">
 	<link rel="stylesheet" href="styles.css">
+	<link rel="icon" href="favicon.ico">
 </head>
 <body>
+	<form id="newTaskForm">
+		<input type="text" id="taskNameField">
+		<input type="submit" value="Add Task">
+	</form>
 
-<form id="add">
-	<input type="text" id="new_task_name">
-	<input type="submit" value="Add Task">
-</form>
+	<section id="box">
+		<h1 id="taskListTitle" contenteditable></h1>
 
-<section id="box">
-	<h1 id="title" contenteditable>ToDo:</h1>
+		<ol id="taskList"></ol>
 
-	<ol id="list" contenteditable>
-		<li>Add tasks to your ToDo list.</li>
-		<li>Print them off.</li>
-		<li>Mark em' off one by one.</li>
-	</ol>
+		<button id="printBtn" title="Print ToDo list"><img src="print.png" alt="print"></button>
+	<section>
 
-	<a href="javascript:window.print();" id="printBtn"><img src="print.png" alt="print this page"></a>
-<section>
-
-<script>
-var title = document.getElementById('title'),
-    add = document.getElementById('add'),
-    new_task_name = document.getElementById('new_task_name'),
-    list = document.getElementById('list');
-
-
-// autosave ToDo list:
-
-if(localStorage.ToDoTitle) title.innerHTML = localStorage.ToDoTitle;
-if(localStorage.ToDoList) list.innerHTML = localStorage.ToDoList;
-
-title.oninput = function() {
-	localStorage.ToDoTitle = title.innerHTML;
-}
-
-list.oninput = function() {
-	localStorage.ToDoList = list.innerHTML;
-}
-
-
-// add task
-
-add.onsubmit = function() {
-	var li = document.createElement('li');
-	li.textContent = new_task_name.value;
-	list.appendChild(li);
-	localStorage.ToDoList = list.innerHTML;
-	new_task_name.focus();
-	new_task_name.value = "";
-	return false;
-}
-</script>
-
+	<script src="app.js"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@ html {
 /* Main containers
 -------------------------------------------*/
 
-#box, #add {
+#box, #newTaskForm {
 	width: 640px;
 	border-radius: 8px;
 	box-shadow: 0 2px 5px rgba(0,0,0,.2);
@@ -40,13 +40,13 @@ html {
 /* Add task form
 -------------------------------------------*/
 
-#new_task_name {
+#taskNameField {
 	width: 426px;
 	box-shadow: inset 0 1px 3px rgba(0,0,0,.2);
 	float: left;
 }
 
-#add input {
+#newTaskForm input {
 	padding: 12px;
 	margin: 0;
 	height: 40px;
@@ -54,7 +54,7 @@ html {
 	border-radius: 6px;
 }
 
-#add input[type="submit"] {
+#newTaskForm input[type="submit"] {
 	width: 141px;
 	margin-left: 24px;
 	box-shadow: inset 0 1px 1px rgba(255,255,255,.5), 0 1px 2px rgba(0,0,0,.25);
@@ -70,7 +70,7 @@ html {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
 }
 
-#add input[type="submit"]:active {
+#newTaskForm input[type="submit"]:active {
 	box-shadow: inset 0 1px 2px rgba(0,0,0,.25);
 }
 
@@ -82,34 +82,67 @@ html {
 	margin-top: 0;
 }
 
-#list {
-	counter-reset: li;
+#taskList {
 	list-style: none;
-	*list-style: decimal;
 	padding: 0;
-	line-height: 42px;
 }
 
-/*
-@media screen {
-	#list li:before {
-		content: counter(li);
-		counter-increment: li;
-		text-shadow: 0 1px 1px rgba(255, 255, 255, .8);
-		background: #19F;
-	}
-}*/
+#taskList li {
+	padding: 6px 0;
+}
 
-#list li:before {
-	display: inline-block;
-	width: 32px;
-	height: 32px;
-	border-radius: 50%;
-	margin-right: 12px;
-	font-size: 1.125em;
-	text-align: center;
-	line-height: 32px;
+#taskList li label {
+	display: block;
+	width: 100%;
+	padding-left: 38px;
+	padding-right: 1px;
+	line-height: 28px;
 	vertical-align: middle;
+	position: relative;
+}
+
+#taskList li label span {
+	display: block;
+	padding: 0 2px;
+	word-wrap: break-word;
+}
+
+#taskList li input[type=checkbox] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border: 2px solid;
+	border-radius: 2px;
+	display: block;
+	float: left;
+	width: 28px;
+	height: 28px;
+	padding: 2px;
+	margin: 0;
+	margin-right: 10px;
+	vertical-align: middle;
+	position: relative;
+	z-index: 1;
+}
+
+#taskList li input[type=checkbox]:focus {
+	outline: 0;
+	border-color: #0af;
+}
+
+#taskList li input[type=checkbox] + label:before {
+	content: "✓";
+	font-size: 1.5em;
+	text-align: center;
+	display: none;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 2px;
+	left: 0;
+}
+
+#taskList li input[type=checkbox]:checked + label:before {
+	display: block;
 }
 
 /* Print icon
@@ -117,6 +150,10 @@ html {
 
 #printBtn {
 	display: block;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	background: none;
 	position: absolute;
 	top: 24px; right: 24px;
 	opacity: .5;
@@ -148,11 +185,11 @@ html {
 		box-shadow: none;
 	}
 
-	#printBtn, #add { display: none }
+	#printBtn, #newTaskForm { display: none }
 
-	#title, #list { display: block }
+	#taskListTitle, #taskList { display: block }
 
-	#list li:before {
+	#taskList li:before {
 		content: "";
 		list-style: inside url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAL0lEQVR42mNMTEz8z0BLQEsLQGYzMdAYjFowasGoBaMWjFowasGoBYPDAkZaN1sAWE4ItV4/wIUAAAAASUVORK5CYII=);
 	}
