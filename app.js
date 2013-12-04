@@ -40,7 +40,7 @@ var printBtn = $id('printBtn');
 
 
 // Pull in ToDo list data from localStorage:
-taskListTitle.textContent = localStorage.ToDoTitle || "ToDo";
+taskListTitle.textContent = storage.get('ToDoTitle') || "ToDo";
 var tasks = storage.get('ToDoList') || [
 	{title: "Add tasks to your ToDo list."},
 	{title: "Print them off."},

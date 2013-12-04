@@ -1,86 +1,143 @@
-/* Basic cross-browser CSS reset
+/* Reset
 -------------------------------------------*/
 
-	* { box-sizing: border-box; -moz-box-sizing: border-box }
-
-	a img { border: none }
-
-	html, body { min-height: 100% }
-
-	body {
-		margin: 0;
-		font: 16px Arial, Helvetica, sans-serif;
-	}
-
-
-html {
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAARUlEQVQIW2P84Fv/j4mJmeHdu7cMbGxsDIyv3CuBAkwM//79YwABxnfetf9+/PjBABJkZmZmYHxoV/BPWFiE4ePHD2AVADjOFo09xb6XAAAAAElFTkSuQmCC);
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-/* Main containers
--------------------------------------------*/
+/* Correct overflow displayed oddly in IE 9 */
+svg:not(:root) {
+    overflow: hidden;
+}
 
-#box, #newTaskForm {
-	width: 640px;
-	border-radius: 8px;
-	box-shadow: 0 2px 5px rgba(0,0,0,.2);
-	margin: 60px auto;
-	padding: 24px;
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 45%, #ededed 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(45%,#f6f6f6), color-stop(100%,#ededed));
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	background: linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+button,
+input[type=submit],
+input[type=button],
+input[type=reset],
+input[type=checkbox],
+input[type=radio] {
+	cursor: pointer;
+}
+
+input[type=text], button {
+	border: 1px solid;
+	margin: 0;
+	font: inherit;
+
+	-webkit-transition: box-shadow 0.2s ease-out;
+	   -moz-transition: box-shadow 0.2s ease-out;
+	     -o-transition: box-shadow 0.2s ease-out;
+	        transition: box-shadow 0.2s ease-out;
+}
+
+button {
+	background: white;
+}
+
+input[type=checkbox] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	border: 2px solid;
+	display: block;
+	float: left;
+	width: 28px;
+	height: 28px;
+	padding: 2px;
+	margin: 0;
+	margin-right: 10px;
+	vertical-align: middle;
+	position: relative;
+	z-index: 1;
+}
+
+input[type=checkbox] + label:before {
+	content: "✓";
+	font-size: 1.5em;
+	text-align: center;
+	display: none;
+	width: 28px;
+	height: 28px;
+	position: absolute;
+	top: 2px;
+	left: 0;
+}
+
+input[type=checkbox]:checked + label:before {
+	display: block;
+}
+
+button:active,
+input[type=text]:focus {
+	box-shadow: inset 0 2px 0 rgba(0,0,0,.02), inset 1px 2px 0 rgba(0,0,0,.08), inset -1px 2px 0 rgba(0,0,0,.08), inset 0 3px 0 rgba(0,0,0,.06);
+}
+
+button:hover,
+button:focus,
+input[type=text]:hover,
+input[type=text]:focus,
+input[type=checkbox]:hover,
+input[type=checkbox]:focus {
+	border-color: hsl(192, 100%, 43%);
+	outline: 0;
+}
+
+button .icon {
+	font-size: 2.2em;
+	line-height: .98em;
+	margin-right: .2em;
+	vertical-align: middle;
+}
+
+button .icon-text {
+	vertical-align: middle;
+}
+
+body {
+	margin: 0 auto;
+	width: 72%;
+	max-width: 720px;
+	font: 16px sans-serif;
 }
 
 
 /* Add task form
 -------------------------------------------*/
 
-#taskNameField {
-	width: 426px;
-	box-shadow: inset 0 1px 3px rgba(0,0,0,.2);
-	float: left;
+.toolbar {
+	margin: 1.6em 0;
+	overflow: hidden;
+}
+
+#newTaskForm {
+	margin: 0 60px 0 0;
+	overflow: hidden;
+	position: relative;
 }
 
 #newTaskForm input {
-	padding: 12px;
-	margin: 0;
-	height: 40px;
-	border: none;
-	border-radius: 6px;
+	outline: 0;
+	font: inherit;
 }
 
-#newTaskForm input[type="submit"] {
-	width: 141px;
-	margin-left: 24px;
-	box-shadow: inset 0 1px 1px rgba(255,255,255,.5), 0 1px 2px rgba(0,0,0,.25);
-	cursor: pointer;
-	text-shadow: 0 1px #fff;
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 45%, #ededed 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(45%,#f6f6f6), color-stop(100%,#ededed));
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	background: linear-gradient(top,  #ffffff 0%,#f6f6f6 45%,#ededed 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+#newTaskForm input {
+	float: left;
+	width: 100%;
+	padding: .6em;
+	padding-right: 12.5vmin;
 }
 
-#newTaskForm input[type="submit"]:active {
-	box-shadow: inset 0 1px 2px rgba(0,0,0,.25);
+#newTaskForm button {
+	position: absolute;
+	right: 0;
+	height: 100%;
+	padding: 0 .7em;
 }
 
 
 /* ToDo list
 -------------------------------------------*/
-
-#title {
-	margin-top: 0;
-}
 
 #taskList {
 	list-style: none;
@@ -107,68 +164,30 @@ html {
 	word-wrap: break-word;
 }
 
-#taskList li input[type=checkbox] {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	border: 2px solid;
-	border-radius: 2px;
-	display: block;
-	float: left;
-	width: 28px;
-	height: 28px;
-	padding: 2px;
-	margin: 0;
-	margin-right: 10px;
-	vertical-align: middle;
-	position: relative;
-	z-index: 1;
-}
-
-#taskList li input[type=checkbox]:focus {
-	outline: 0;
-	border-color: #0af;
-}
-
-#taskList li input[type=checkbox] + label:before {
-	content: "✓";
-	font-size: 1.5em;
-	text-align: center;
-	display: none;
-	width: 28px;
-	height: 28px;
-	position: absolute;
-	top: 2px;
-	left: 0;
-}
-
-#taskList li input[type=checkbox]:checked + label:before {
-	display: block;
-}
-
 /* Print icon
 -------------------------------------------*/
 
-#printBtn {
-	display: block;
-	margin: 0;
-	border: 0;
-	padding: 0;
-	background: none;
-	position: absolute;
-	top: 24px; right: 24px;
-	opacity: .5;
-	filter: alpha(opacity=50);
-
-	-webkit-transition: all 0.3s ease-out;
-	   -moz-transition: all 0.3s ease-out;
-	    -ms-transition: all 0.3s ease-out;
-	     -o-transition: all 0.3s ease-out;
-	        transition: all 0.3s ease-out;
+.left {
+	width: 100%;
+	float: left;
 }
 
-#printBtn:hover {
-	opacity: .8;
-	filter: alpha(opacity=80);
+.right {
+	float: right;
+	width: 40px;
+	margin-left: -2.5em;
+}
+
+#printBtn {
+	display: block;
+	float: right;
+	width: 2.5em;
+	height: 2.5em;
+	padding: 0;
+}
+
+#printBtn svg {
+	vertical-align: bottom;
 }
 
 
@@ -176,22 +195,7 @@ html {
 -------------------------------------------*/
 
 @media print {
+	.toolbar { display: none; }
 
-	html, #box { background: none }
-
-	#box {
-		margin: 0;
-		padding: 0;
-		box-shadow: none;
-	}
-
-	#printBtn, #newTaskForm { display: none }
-
-	#taskListTitle, #taskList { display: block }
-
-	#taskList li:before {
-		content: "";
-		list-style: inside url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAL0lEQVR42mNMTEz8z0BLQEsLQGYzMdAYjFowasGoBaMWjFowasGoBYPDAkZaN1sAWE4ItV4/wIUAAAAASUVORK5CYII=);
-	}
-
+	#taskListTitle, #taskList { display: block; }
 }
