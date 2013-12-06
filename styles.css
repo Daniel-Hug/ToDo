@@ -53,7 +53,7 @@ input[type=checkbox] {
 }
 
 input[type=checkbox] + label:before {
-	content: "✓";
+	content: "\2713";
 	font-size: 1.5em;
 	text-align: center;
 	display: none;
@@ -125,7 +125,7 @@ body {
 	float: left;
 	width: 100%;
 	padding: .6em;
-	padding-right: 12.5vmin;
+	padding-right: 84px;
 }
 
 #newTaskForm button {
