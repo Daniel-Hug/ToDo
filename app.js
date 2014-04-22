@@ -2,6 +2,7 @@
 //	'use strict';
 
 // Helper functions:
+
 var $id = document.getElementById.bind(document);
 
 function on(target, type, callback) {
@@ -39,11 +40,11 @@ function renderMultiple(arr, renderer) {
 
 
 // Grab elements:
-var newTaskForm = $id('newTaskForm');
-var taskNameField = $id('taskNameField');
-var taskList = $id('taskList');
-var taskListTitle = $id('taskListTitle');
-var printBtn = $id('printBtn');
+var newTaskForm = $id('new-task-form');
+var taskNameField = $id('task-name-field');
+var taskList = $id('task-list');
+var taskListTitle = $id('task-list-title');
+var printBtn = $id('print-button');
 
 
 // Pull in ToDo list data from localStorage:
@@ -65,23 +66,35 @@ function renderTask(taskObj, i) {
 	var li = document.createElement('li');
 	var checkbox = document.createElement('input');
 	var label = document.createElement('label');
-	var span = document.createElement('span');
+	var checkboxSpan = document.createElement('span');
+	var titleBlock = document.createElement('span');
+	var textSpan = document.createElement('span');
+	checkbox.className = 'visuallyhidden';
+	checkboxSpan.className = 'checkbox';
+	titleBlock.className = 'title';
 
 	// Add data:
 	checkbox.type = 'checkbox';
 	if (taskObj.done) checkbox.checked = true;
-	span.textContent = taskObj.title;
+	textSpan.textContent = taskObj.title;
 
 	// Append children to li:
-	label.appendChild(span);
-	li.appendChild(checkbox);
+	titleBlock.appendChild(textSpan);
+	label.appendChild(checkbox);
+	label.appendChild(checkboxSpan);
+	label.appendChild(titleBlock);
 	li.appendChild(label);
 
 	// Allow changes to ToDo title:
-	span.contentEditable = true;
-	on(span, 'input', function() {
+	textSpan.contentEditable = true;
+	on(textSpan, 'input', function() {
 		tasks[i].title = this.textContent;
 		storage.set('ToDoList', tasks);
+	});
+	on(titleBlock, 'click', function(event) {
+		// Don't toggle checkbox when todo title is clicked:
+		event.preventDefault();
+		event.stopPropagation();
 	});
 
 	// Let ToDos be checked off:

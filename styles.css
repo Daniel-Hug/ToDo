@@ -1,3 +1,7 @@
+/*
+	Reset
+*/
+
 * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -33,36 +37,21 @@ button {
 	background: white;
 }
 
-input[type=checkbox] {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	border: 2px solid;
-	display: block;
-	float: left;
-	width: 28px;
-	height: 28px;
-	padding: 2px;
-	margin: 0;
-	margin-right: 10px;
-	vertical-align: middle;
-	position: relative;
-	z-index: 1;
-}
 
-input[type=checkbox] + label:before {
-	content: "\2713";
-	font-size: 1.5em;
-	text-align: center;
-	display: none;
-	width: 28px;
-	height: 28px;
-	position: absolute;
-	top: .03em;
-	left: 0;
-}
 
-input[type=checkbox]:checked + label:before {
-	display: block;
+/*
+	helper classes
+*/
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
 
 button:active,
@@ -103,33 +92,35 @@ body {
 }
 
 
-/* Add task form
--------------------------------------------*/
+
+/*
+	Add task form
+*/
 
 .toolbar {
 	margin: 1.6em 0;
 	overflow: hidden;
 }
 
-#newTaskForm {
+#new-task-form {
 	margin: 0 60px 0 0;
 	overflow: hidden;
 	position: relative;
 }
 
-#newTaskForm input {
+#new-task-form input {
 	outline: 0;
 	font: inherit;
 }
 
-#newTaskForm input {
+#new-task-form input {
 	float: left;
 	width: 100%;
 	padding: .6em;
 	padding-right: 84px;
 }
 
-#newTaskForm button {
+#new-task-form button {
 	position: absolute;
 	right: 0;
 	height: 100%;
@@ -137,33 +128,60 @@ body {
 }
 
 
-/* ToDo list
--------------------------------------------*/
 
-#taskList {
+/*
+	Task list
+*/
+
+#task-list {
 	list-style: none;
 	padding: 0;
 }
 
-#taskList li {
+#task-list li {
 	padding: 6px 0;
 }
 
-#taskList li label {
+#task-list .title {
 	display: block;
 	width: 100%;
 	padding-left: 38px;
 	padding-right: 1px;
 	line-height: 28px;
 	vertical-align: middle;
-	position: relative;
+	cursor: text;
 }
 
-#taskList li label span {
+#task-list .title span {
 	display: block;
 	padding: 0 2px;
 	word-wrap: break-word;
 }
+
+#task-list input[type=checkbox] + .checkbox {
+	display: block;
+	float: left;
+	border: 2px solid;
+	width: 28px;
+	height: 28px;
+	margin: 0;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+
+#task-list input[type=checkbox] + .checkbox:before {
+	display: none;
+	content: "\2713";
+	font-size: 1.3em;
+	line-height: 24px;
+	text-align: center;
+}
+
+#task-list input[type=checkbox]:checked + .checkbox:before {
+	display: block;
+}
+
+
 
 /* Print icon
 -------------------------------------------*/
@@ -179,7 +197,7 @@ body {
 	margin-left: -2.5em;
 }
 
-#printBtn {
+#print-button {
 	display: block;
 	float: right;
 	width: 2.5em;
@@ -187,7 +205,7 @@ body {
 	padding: 0;
 }
 
-#printBtn svg {
+#print-button svg {
 	vertical-align: bottom;
 }
 
@@ -198,5 +216,5 @@ body {
 @media print {
 	.toolbar { display: none; }
 
-	#taskListTitle, #taskList { display: block; }
+	#task-list-title, #task-list { display: block; }
 }
