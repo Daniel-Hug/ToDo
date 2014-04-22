@@ -1,13 +1,16 @@
+//(function() {
+//	'use strict';
+
 // Helper functions:
 var $id = document.getElementById.bind(document);
 
-function on(eventTarget, type, callback) {
-	eventTarget.addEventListener(type, callback, false);
+function on(target, type, callback) {
+	target.addEventListener(type, callback, false);
 }
 
 // localStorage + JSON wrapper:
 var storage = {
-	get: function(prop, isJSON) {
+	get: function(prop) {
 		return JSON.parse(localStorage.getItem(prop));
 	},
 	set: function(prop, val) {
@@ -24,10 +27,14 @@ var storage = {
 	}
 };
 
-function getElementIndex(el) {
-    var i = 0;
-    while ( (el = el.previousElementSibling) ) i++;
-    return i;
+// Loop through an array of data objects,
+// render each data object as an element with data inserted using the renderer,
+// append each element to a documentFragment, and return the documentFragment:
+function renderMultiple(arr, renderer) {
+	var renderedEls = [].map.call(arr, renderer);
+	var docFrag = document.createDocumentFragment();
+	for (var i = renderedEls.length; i--;) docFrag.appendChild(renderedEls[i]);
+	return docFrag;
 }
 
 
@@ -40,27 +47,35 @@ var printBtn = $id('printBtn');
 
 
 // Pull in ToDo list data from localStorage:
-taskListTitle.textContent = storage.get('ToDoTitle') || "ToDo";
+taskListTitle.textContent = storage.get('ToDoTitle') || 'ToDo';
 var tasks = storage.get('ToDoList') || [
-	{title: "Add tasks to your ToDo list."},
-	{title: "Print them off."},
-	{title: "Mark em' off one by one."}
+	{done: false, title: 'Add tasks to your ToDo list.'},
+	{done: false, title: 'Print them off.'},
+	{done: false, title: "Mark em' off one by one."}
 ];
 
 
 // render tasks to the page:
+// <li>
+//     <input type="checkbox" checked="{{done}}">
+//     <div><span contenteditable="true">trousers</span></div>
+// </li>
 function renderTask(taskObj, i) {
+	// Create elements:
 	var li = document.createElement('li');
 	var checkbox = document.createElement('input');
 	var label = document.createElement('label');
 	var span = document.createElement('span');
+
+	// Add data:
 	checkbox.type = 'checkbox';
 	if (taskObj.done) checkbox.checked = true;
 	span.textContent = taskObj.title;
+
+	// Append children to li:
 	label.appendChild(span);
 	li.appendChild(checkbox);
 	li.appendChild(label);
-	taskList.appendChild(li);
 
 	// Allow changes to ToDo title:
 	span.contentEditable = true;
@@ -74,9 +89,11 @@ function renderTask(taskObj, i) {
 		tasks[i].done = this.checked;
 		storage.set('ToDoList', tasks);
 	});
+	
+	return li;
 }
 
-tasks.forEach(renderTask);
+taskList.appendChild(renderMultiple(tasks, renderTask));
 
 
 // Allow changes to ToDo list title:
@@ -87,17 +104,22 @@ on(taskListTitle, 'input', function() {
 
 // add task
 on(newTaskForm, 'submit', function(event) {
-	event.preventDefault();
+	// Handle data:
 	var taskObj = {title: taskNameField.value};
-	renderTask(taskObj, tasks.length);
 	tasks.push(taskObj);
 	storage.set('ToDoList', tasks);
-	taskNameField.value = "";
-	taskNameField.focus();
+
+	// Render to DOM:
+	taskList.appendChild(renderTask(taskObj, tasks.length));
+
+	// Handle form:
+	event.preventDefault();
+	taskNameField.value = '';
 });
 
 
 // print:
-on(printBtn, 'click', function(event) {
+on(printBtn, 'click', function() {
 	window.print();
 });
+//})();
