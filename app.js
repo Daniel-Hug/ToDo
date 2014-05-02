@@ -58,40 +58,45 @@
 
 	// render tasks to the page:
 	// <li>
-	//     <input type="checkbox" checked="{{done}}">
-	//     <div><span contenteditable="true">trousers</span></div>
+	//     <label>
+	//         <input type="checkbox" class="visuallyhidden" checked="{{done}}">
+	//         <div class="checkbox"></div>
+	//         <div class="title">
+	//             <div contenteditable="true">trousers</div>
+	//         </div>
+	//     </label>
 	// </li>
 	function renderTask(taskObj, i) {
 		// Create elements:
 		var li = document.createElement('li');
 		var checkbox = document.createElement('input');
 		var label = document.createElement('label');
-		var checkboxSpan = document.createElement('span');
-		var titleBlock = document.createElement('span');
-		var textSpan = document.createElement('span');
+		var checkboxDiv = document.createElement('div');
+		var titleWrap = document.createElement('div');
+		var title = document.createElement('div');
 		checkbox.className = 'visuallyhidden';
-		checkboxSpan.className = 'checkbox';
-		titleBlock.className = 'title';
+		checkboxDiv.className = 'checkbox';
+		titleWrap.className = 'title';
 
 		// Add data:
 		checkbox.type = 'checkbox';
 		if (taskObj.done) checkbox.checked = true;
-		textSpan.textContent = taskObj.title;
+		title.textContent = taskObj.title;
 
 		// Append children to li:
-		titleBlock.appendChild(textSpan);
+		titleWrap.appendChild(title);
 		label.appendChild(checkbox);
-		label.appendChild(checkboxSpan);
-		label.appendChild(titleBlock);
+		label.appendChild(checkboxDiv);
+		label.appendChild(titleWrap);
 		li.appendChild(label);
 
 		// Allow changes to ToDo title:
-		textSpan.contentEditable = true;
-		on(textSpan, 'input', function() {
+		title.contentEditable = true;
+		on(title, 'input', function() {
 			tasks[i].title = this.textContent;
 			storage.set('ToDoList', tasks);
 		});
-		on(titleBlock, 'click', function(event) {
+		on(titleWrap, 'click', function(event) {
 			// Don't toggle checkbox when todo title is clicked:
 			event.preventDefault();
 			event.stopPropagation();
