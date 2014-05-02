@@ -212,7 +212,11 @@ body {
 -------------------------------------------*/
 
 @media print {
-	.toolbar { display: none; }
+	.toolbar, #task-list .icon-trash { display: none; }
+
+	#task-list .title {
+		padding-left: 38px;
+	}
 
 	#task-list-title, #task-list { display: block; }
 }
