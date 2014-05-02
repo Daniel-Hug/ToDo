@@ -66,16 +66,18 @@
 	//         </div>
 	//     </label>
 	// </li>
-	function renderTask(taskObj, i) {
+	function renderTask(taskObj) {
 		// Create elements:
 		var li = document.createElement('li');
 		var checkbox = document.createElement('input');
 		var label = document.createElement('label');
 		var checkboxDiv = document.createElement('div');
+		var deleteBtn = document.createElement('button');
 		var titleWrap = document.createElement('div');
 		var title = document.createElement('div');
 		checkbox.className = 'visuallyhidden';
 		checkboxDiv.className = 'checkbox';
+		deleteBtn.className = 'icon-trash';
 		titleWrap.className = 'title';
 
 		// Add data:
@@ -87,24 +89,35 @@
 		titleWrap.appendChild(title);
 		label.appendChild(checkbox);
 		label.appendChild(checkboxDiv);
+		label.appendChild(deleteBtn);
 		label.appendChild(titleWrap);
 		li.appendChild(label);
 
 		// Allow changes to ToDo title:
 		title.contentEditable = true;
 		on(title, 'input', function() {
-			tasks[i].title = this.textContent;
+			taskObj.title = this.textContent;
 			storage.set('ToDoList', tasks);
 		});
-		on(titleWrap, 'click', function(event) {
-			// Don't toggle checkbox when todo title is clicked:
-			event.preventDefault();
-			event.stopPropagation();
+
+		// Don't toggle checkbox when todo title or delete button is clicked:
+		[titleWrap, deleteBtn].forEach(function(el) {
+			on(el, 'click', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			});
+		});
+
+		on(deleteBtn, 'click', function() {
+			var taskIndex = tasks.indexOf(taskObj);
+			tasks.splice(taskIndex, 1);
+			li.parentNode.removeChild(li);
+			storage.set('ToDoList', tasks);
 		});
 
 		// Let ToDos be checked off:
 		on(checkbox, 'change', function() {
-			tasks[i].done = this.checked;
+			taskObj.done = this.checked;
 			storage.set('ToDoList', tasks);
 		});
 		

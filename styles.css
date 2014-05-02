@@ -10,7 +10,7 @@
 
 /* Correct overflow displayed oddly in IE 9 */
 svg:not(:root) {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 button,
@@ -28,9 +28,9 @@ input[type=text], button {
 	font: inherit;
 
 	-webkit-transition: box-shadow 0.2s ease-out;
-	   -moz-transition: box-shadow 0.2s ease-out;
-	     -o-transition: box-shadow 0.2s ease-out;
-	        transition: box-shadow 0.2s ease-out;
+	-moz-transition: box-shadow 0.2s ease-out;
+	-o-transition: box-shadow 0.2s ease-out;
+	transition: box-shadow 0.2s ease-out;
 }
 
 button {
@@ -44,14 +44,14 @@ button {
 */
 
 .visuallyhidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
 }
 
 button:active,
@@ -144,7 +144,7 @@ body {
 
 #task-list .title {
 	width: 100%;
-	padding-left: 38px;
+	padding-left: 76px;
 	padding-right: 1px;
 	line-height: 28px;
 	vertical-align: middle;
@@ -156,12 +156,13 @@ body {
 	word-wrap: break-word;
 }
 
-#task-list input[type=checkbox] + .checkbox {
+#task-list input[type=checkbox] + .checkbox, #task-list .icon-trash {
 	float: left;
 	border: 2px solid;
 	width: 28px;
 	height: 28px;
 	margin: 0;
+	padding: 0;
 	margin-right: 10px;
 	vertical-align: middle;
 }
