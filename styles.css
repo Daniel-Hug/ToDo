@@ -25,34 +25,6 @@ input[type=radio] {
 
 
 /*
-	helper classes
-*/
-
-.visuallyhidden {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-}
-
-button .icon {
-	font-size: 2.2em;
-	line-height: .98em;
-	margin-right: .2em;
-	vertical-align: middle;
-}
-
-button .icon-text {
-	vertical-align: middle;
-}
-
-
-
-/*
 	theme
 */
 
@@ -72,8 +44,7 @@ button {
 }
 
 button:active,
-input[type=text]:focus,
-#task-list input[type=checkbox]:active + .checkbox {
+input[type=text]:focus {
 	box-shadow:
 		inset  0   2px 0 rgba(0, 0, 0, 0.02),
 		inset  1px 2px 0 rgba(0, 0, 0, 0.08),
@@ -130,6 +101,17 @@ body {
 	right: 0;
 	height: 100%;
 	padding: 0 .7em;
+}
+
+button .icon {
+	font-size: 2.2em;
+	line-height: .98em;
+	margin-right: .2em;
+	vertical-align: middle;
+}
+
+button .icon-text {
+	vertical-align: middle;
 }
 
 
@@ -189,7 +171,39 @@ body {
 	cursor: pointer;
 }
 
-#task-list input[type=checkbox] + .checkbox:before {
+#task-list .icon-trash:hover,
+#task-list .icon-trash:focus {
+	border-color: rgb(0, 175, 219);
+}
+
+
+
+/*
+	Facade box (custom checkbox)
+*/
+
+.facade-box {
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 28px;
+	height: 28px;
+	margin-right: 10px;
+	position: relative;
+	z-index: 1;
+	opacity: 0;
+}
+
+.facade-box + .facade {
+	float: left;
+	width: 28px;
+	height: 28px;
+	border: 2px solid;
+	margin-left: -38px;
+	vertical-align: middle;
+}
+
+.facade-box + .facade:before {
 	display: none;
 	content: "\2713";
 	font-size: 1.3em;
@@ -197,14 +211,20 @@ body {
 	text-align: center;
 }
 
-#task-list input[type=checkbox]:checked + .checkbox:before {
+.facade-box:checked + .facade:before {
 	display: block;
 }
 
-.checkbox:hover,
-#task-list input[type=checkbox]:focus + .checkbox,
-#task-list .icon-trash:hover,
-#task-list .icon-trash:focus {
+.facade-box:active + .facade {
+	box-shadow:
+		inset  0   2px 0 rgba(0, 0, 0, 0.02),
+		inset  1px 2px 0 rgba(0, 0, 0, 0.08),
+		inset -1px 2px 0 rgba(0, 0, 0, 0.08),
+		inset  0   3px 0 rgba(0, 0, 0, 0.06);
+}
+
+.facade-box:hover + .facade,
+.facade-box:focus + .facade {
 	border-color: rgb(0, 175, 219);
 }
 

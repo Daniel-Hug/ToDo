@@ -14,24 +14,24 @@
 
 	// render tasks to the page:
 	// <li>
-	//     <label>
-	//         <input type="checkbox" class="visuallyhidden" checked="{{done}}">
-	//         <div class="checkbox"></div>
+	//     <div>
+	//         <input type="checkbox" class="facade-box" {{bindAttr checked="done"}}">
+	//         <div class="facade"></div>
 	//         <button class="icon-trash"></button>
 	//         <div class="title">
 	//             <div contenteditable="true">{{title}}</div>
 	//         </div>
-	//     </label>
+	//     </div>
 	// </li>
 	function renderTask(taskObj) {
 		// Create ToDo DOM:
 		return $.DOM.buildNode({
 			el: 'li', kid: {
-				el: 'label', kids: [
-					{ el: 'input', type: 'checkbox', _className: 'visuallyhidden', _checked: !!taskObj.done, on_change: [check] },
-					{ _className: 'checkbox' },
-					{ el: 'button', _className: 'icon-trash', on_click: [preventToggle, deleteTodo] },
-					{ _className: 'title', on_click: [preventToggle], kid: 
+				el: 'div', kids: [
+					{ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] },
+					{ _className: 'facade'},
+					{ el: 'button', _className: 'icon-trash', on_click: [deleteTodo] },
+					{ _className: 'title', kid: 
 						{ _contentEditable: true, kid: taskObj.title, on_input: [titleInput] }
 					}
 				]
@@ -43,12 +43,6 @@
 		function titleInput() {
 			taskObj.title = this.textContent;
 			$.storage.set('ToDoList', tasks);
-		}
-
-		// Don't toggle checkbox when todo title or delete button is clicked:
-		function preventToggle(event) {
-			event.preventDefault();
-			event.stopPropagation();
 		}
 
 		function deleteTodo() {
