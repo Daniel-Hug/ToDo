@@ -29,16 +29,14 @@
 		//     </div>
 		// </li>
 		return $.DOM.buildNode({
-			el: 'li', kid: {
-				el: 'div', kids: [
-					{ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] },
-					{ _className: 'facade'},
-					{ el: 'button', _className: 'icon-trash', on_click: [deleteTodo] },
-					{ _className: 'title', kid: 
-						{ _contentEditable: true, kid: taskObj.title, on_input: [titleEdit] }
-					}
-				]
-			}
+			el: 'li', kids: [
+				{ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] },
+				{ _className: 'facade'},
+				{ el: 'button', _className: 'icon-trash', on_click: [deleteTodo] },
+				{ _className: 'title', kid: 
+					{ _contentEditable: true, kid: taskObj.title, on_input: [titleEdit] }
+				}
+			]
 		});
 
 
