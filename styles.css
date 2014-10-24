@@ -85,7 +85,7 @@ button:hover,
 button:focus,
 input[type=text]:hover,
 input[type=text]:focus {
-	border-color: hsl(192, 100%, 43%);
+	border-color: rgb(0, 175, 219);
 	outline: 0;
 }
 
@@ -159,14 +159,20 @@ body {
 #task-list .title > div {
 	padding: 0 2px;
 	word-wrap: break-word;
-	outline: 2px none hsl(192, 100%, 43%);
 }
 
-#task-list .title > div:hover {
+#task-list .title > div,
+#task-list-title {
+	outline: 2px none rgb(0, 175, 219);
+}
+
+#task-list .title > div:hover,
+#task-list-title:hover {
 	background: rgba(0, 175, 219, .1);
 }
 
-#task-list .title > div:focus {
+#task-list .title > div:focus,
+#task-list-title:focus {
 	outline-style: solid;
 }
 
@@ -199,7 +205,7 @@ body {
 #task-list input[type=checkbox]:focus + .checkbox,
 #task-list .icon-trash:hover,
 #task-list .icon-trash:focus {
-	border-color: hsl(192, 100%, 43%);
+	border-color: rgb(0, 175, 219);
 }
 
 
