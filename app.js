@@ -2,9 +2,12 @@
 	'use strict';
 
 
-	// Pull in ToDo list data from localStorage:
+	// Set list title
 	var taskListTitle = $.id('task-list-title');
 	taskListTitle.textContent = $.storage.get('ToDoTitle') || 'ToDo';
+
+
+	// Pull in ToDo list data from localStorage
 	window.tasks = $.storage.get('ToDoList') || [
 		{done: false, title: 'Add tasks to your ToDo list.'},
 		{done: false, title: 'Print them off.'},
@@ -12,19 +15,19 @@
 	];
 
 
-	// render tasks to the page:
-	// <li>
-	//     <div>
-	//         <input type="checkbox" class="facade-box" {{bindAttr checked="done"}}">
-	//         <div class="facade"></div>
-	//         <button class="icon-trash"></button>
-	//         <div class="title">
-	//             <div contenteditable="true">{{title}}</div>
-	//         </div>
-	//     </div>
-	// </li>
+	// task renderer
 	function renderTask(taskObj) {
-		// Create ToDo DOM:
+		// Create ToDo DOM
+		// <li>
+		//     <div>
+		//         <input type="checkbox" class="facade-box" {{bindAttr checked="done"}}">
+		//         <div class="facade"></div>
+		//         <button class="icon-trash"></button>
+		//         <div class="title">
+		//             <div contenteditable="true">{{title}}</div>
+		//         </div>
+		//     </div>
+		// </li>
 		return $.DOM.buildNode({
 			el: 'li', kid: {
 				el: 'div', kids: [
@@ -32,16 +35,21 @@
 					{ _className: 'facade'},
 					{ el: 'button', _className: 'icon-trash', on_click: [deleteTodo] },
 					{ _className: 'title', kid: 
-						{ _contentEditable: true, kid: taskObj.title, on_input: [titleInput] }
+						{ _contentEditable: true, kid: taskObj.title, on_input: [titleEdit] }
 					}
 				]
 			}
 		});
 
 
-		// Allow changes to ToDo title:
-		function titleInput() {
+		// handle ToDo edit, check, & delete
+		function titleEdit() {
 			taskObj.title = this.textContent;
+			$.storage.set('ToDoList', tasks);
+		}
+
+		function check() {
+			taskObj.done = this.checked;
 			$.storage.set('ToDoList', tasks);
 		}
 
@@ -52,42 +60,38 @@
 			li.parentNode.removeChild(li);
 			$.storage.set('ToDoList', tasks);
 		}
-
-		// Let ToDos be checked off:
-		function check() {
-			taskObj.done = this.checked;
-			$.storage.set('ToDoList', tasks);
-		}
 	}
 
+
+	// start task rendering
 	var taskList = $.id('task-list');
 	taskList.appendChild($.renderMultiple(tasks, renderTask));
 
 
-	// Allow changes to ToDo list title:
+	// Allow changes to list title
 	$.on(taskListTitle, 'input', function() {
 		$.storage.set('ToDoTitle', taskListTitle.textContent);
 	});
 
 
-	// add task
+	// handle new task entries
 	var taskNameField = $.id('task-name-field');
 	$.on($.id('new-task-form'), 'submit', function(event) {
-		// Handle data:
+		// Handle data
 		var taskObj = {title: taskNameField.value};
 		tasks.push(taskObj);
 		$.storage.set('ToDoList', tasks);
 
-		// Render to DOM:
+		// Render to DOM
 		taskList.appendChild(renderTask(taskObj, tasks.length));
 
-		// Handle form:
+		// Handle form
 		event.preventDefault();
 		taskNameField.value = '';
 	});
 
 
-	// print:
+	// print
 	$.on($.id('print-button'), 'click', function() {
 		window.print();
 	});
