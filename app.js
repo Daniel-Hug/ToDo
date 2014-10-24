@@ -1,55 +1,11 @@
 (function() {
 	'use strict';
 
-	// Helper functions:
-
-	var $id = document.getElementById.bind(document);
-
-	function on(target, type, callback) {
-		target.addEventListener(type, callback, false);
-	}
-
-	// localStorage + JSON wrapper:
-	var storage = {
-		get: function(prop) {
-			return JSON.parse(localStorage.getItem(prop));
-		},
-		set: function(prop, val) {
-			localStorage.setItem(prop, JSON.stringify(val));
-		},
-		has: function(prop) {
-			return localStorage.hasOwnProperty(prop);
-		},
-		remove: function(prop) {
-			localStorage.removeItem(prop);
-		},
-		clear: function() {
-			localStorage.clear();
-		}
-	};
-
-	// Loop through an array of data objects,
-	// render each data object as an element with data inserted using the renderer,
-	// append each element to a documentFragment, and return the documentFragment:
-	function renderMultiple(arr, renderer) {
-		var renderedEls = [].map.call(arr, renderer);
-		var docFrag = document.createDocumentFragment();
-		for (var i = renderedEls.length; i--;) docFrag.appendChild(renderedEls[i]);
-		return docFrag;
-	}
-
-
-	// Grab elements:
-	var newTaskForm = $id('new-task-form');
-	var taskNameField = $id('task-name-field');
-	var taskList = $id('task-list');
-	var taskListTitle = $id('task-list-title');
-	var printBtn = $id('print-button');
-
 
 	// Pull in ToDo list data from localStorage:
-	taskListTitle.textContent = storage.get('ToDoTitle') || 'ToDo';
-	var tasks = storage.get('ToDoList') || [
+	var taskListTitle = $.id('task-list-title');
+	taskListTitle.textContent = $.storage.get('ToDoTitle') || 'ToDo';
+	window.tasks = $.storage.get('ToDoList') || [
 		{done: false, title: 'Add tasks to your ToDo list.'},
 		{done: false, title: 'Print them off.'},
 		{done: false, title: "Mark em' off one by one."}
@@ -61,84 +17,72 @@
 	//     <label>
 	//         <input type="checkbox" class="visuallyhidden" checked="{{done}}">
 	//         <div class="checkbox"></div>
+	//         <button class="icon-trash"></button>
 	//         <div class="title">
-	//             <div contenteditable="true">trousers</div>
+	//             <div contenteditable="true">{{title}}</div>
 	//         </div>
 	//     </label>
 	// </li>
 	function renderTask(taskObj) {
-		// Create elements:
-		var li = document.createElement('li');
-		var checkbox = document.createElement('input');
-		var label = document.createElement('label');
-		var checkboxDiv = document.createElement('div');
-		var deleteBtn = document.createElement('button');
-		var titleWrap = document.createElement('div');
-		var title = document.createElement('div');
-		checkbox.className = 'visuallyhidden';
-		checkboxDiv.className = 'checkbox';
-		deleteBtn.className = 'icon-trash';
-		titleWrap.className = 'title';
+		// Create ToDo DOM:
+		return $.DOM.buildNode({
+			el: 'li', kid: {
+				el: 'label', kids: [
+					{ el: 'input', type: 'checkbox', _className: 'visuallyhidden', _checked: !!taskObj.done, on_change: [check] },
+					{ _className: 'checkbox' },
+					{ el: 'button', _className: 'icon-trash', on_click: [preventToggle, deleteTodo] },
+					{ _className: 'title', on_click: [preventToggle], kid: 
+						{ _contentEditable: true, kid: taskObj.title, on_input: [titleInput] }
+					}
+				]
+			}
+		});
 
-		// Add data:
-		checkbox.type = 'checkbox';
-		if (taskObj.done) checkbox.checked = true;
-		title.textContent = taskObj.title;
-
-		// Append children to li:
-		titleWrap.appendChild(title);
-		label.appendChild(checkbox);
-		label.appendChild(checkboxDiv);
-		label.appendChild(deleteBtn);
-		label.appendChild(titleWrap);
-		li.appendChild(label);
 
 		// Allow changes to ToDo title:
-		title.contentEditable = true;
-		on(title, 'input', function() {
+		function titleInput() {
 			taskObj.title = this.textContent;
-			storage.set('ToDoList', tasks);
-		});
+			$.storage.set('ToDoList', tasks);
+		}
 
 		// Don't toggle checkbox when todo title or delete button is clicked:
-		[titleWrap, deleteBtn].forEach(function(el) {
-			on(el, 'click', function(event) {
-				event.preventDefault();
-				event.stopPropagation();
-			});
-		});
+		function preventToggle(event) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
 
-		on(deleteBtn, 'click', function() {
+		function deleteTodo() {
 			var taskIndex = tasks.indexOf(taskObj);
 			tasks.splice(taskIndex, 1);
+			var li = this.parentNode.parentNode;
 			li.parentNode.removeChild(li);
-			storage.set('ToDoList', tasks);
-		});
+			$.storage.set('ToDoList', tasks);
+		}
 
 		// Let ToDos be checked off:
-		on(checkbox, 'change', function() {
+		function check() {
 			taskObj.done = this.checked;
-			storage.set('ToDoList', tasks);
-		});
-		
-		return li;
+			$.storage.set('ToDoList', tasks);
+		}
 	}
 
-	taskList.appendChild(renderMultiple(tasks, renderTask));
+	var taskList = $.id('task-list');
+	taskList.appendChild($.renderMultiple(tasks, renderTask));
 
 
 	// Allow changes to ToDo list title:
-	on(taskListTitle, 'input', function() {
-		storage.set('ToDoTitle', taskListTitle.textContent);
+	$.on(taskListTitle, 'input', function() {
+		$.storage.set('ToDoTitle', taskListTitle.textContent);
 	});
 
 
 	// add task
-	on(newTaskForm, 'submit', function(event) {
+	var taskNameField = $.id('task-name-field');
+	$.on($.id('new-task-form'), 'submit', function(event) {
 		// Handle data:
 		var taskObj = {title: taskNameField.value};
 		tasks.push(taskObj);
-		storage.set('ToDoList', tasks);
+		$.storage.set('ToDoList', tasks);
 
 		// Render to DOM:
 		taskList.appendChild(renderTask(taskObj, tasks.length));
@@ -150,7 +94,7 @@
 
 
 	// print:
-	on(printBtn, 'click', function() {
+	$.on($.id('print-button'), 'click', function() {
 		window.print();
 	});
 })();
