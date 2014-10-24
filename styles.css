@@ -22,21 +22,6 @@ input[type=radio] {
 	cursor: pointer;
 }
 
-input[type=text], button {
-	border: 1px solid;
-	margin: 0;
-	font: inherit;
-
-	-webkit-transition: box-shadow 0.2s ease-out;
-	-moz-transition: box-shadow 0.2s ease-out;
-	-o-transition: box-shadow 0.2s ease-out;
-	transition: box-shadow 0.2s ease-out;
-}
-
-button {
-	background: white;
-}
-
 
 
 /*
@@ -54,8 +39,41 @@ button {
 	width: 1px;
 }
 
+button .icon {
+	font-size: 2.2em;
+	line-height: .98em;
+	margin-right: .2em;
+	vertical-align: middle;
+}
+
+button .icon-text {
+	vertical-align: middle;
+}
+
+
+
+/*
+	theme
+*/
+
+input[type=text], button {
+	border: 1px solid;
+	margin: 0;
+	font: inherit;
+
+	-webkit-transition: box-shadow 0.2s ease-out;
+	-moz-transition: box-shadow 0.2s ease-out;
+	-o-transition: box-shadow 0.2s ease-out;
+	transition: box-shadow 0.2s ease-out;
+}
+
+button {
+	background: white;
+}
+
 button:active,
-input[type=text]:focus {
+input[type=text]:focus,
+#task-list input[type=checkbox]:active + .checkbox {
 	box-shadow:
 		inset  0   2px 0 rgba(0, 0, 0, 0.02),
 		inset  1px 2px 0 rgba(0, 0, 0, 0.08),
@@ -66,22 +84,9 @@ input[type=text]:focus {
 button:hover,
 button:focus,
 input[type=text]:hover,
-input[type=text]:focus,
-input[type=checkbox]:hover,
-input[type=checkbox]:focus {
+input[type=text]:focus {
 	border-color: hsl(192, 100%, 43%);
 	outline: 0;
-}
-
-button .icon {
-	font-size: 2.2em;
-	line-height: .98em;
-	margin-right: .2em;
-	vertical-align: middle;
-}
-
-button .icon-text {
-	vertical-align: middle;
 }
 
 body {
@@ -154,9 +159,19 @@ body {
 #task-list .title > div {
 	padding: 0 2px;
 	word-wrap: break-word;
+	outline: 2px none hsl(192, 100%, 43%);
 }
 
-#task-list input[type=checkbox] + .checkbox, #task-list .icon-trash {
+#task-list .title > div:hover {
+	background: rgba(0, 175, 219, .1);
+}
+
+#task-list .title > div:focus {
+	outline-style: solid;
+}
+
+.checkbox,
+#task-list .icon-trash {
 	float: left;
 	border: 2px solid;
 	width: 28px;
@@ -165,6 +180,7 @@ body {
 	padding: 0;
 	margin-right: 10px;
 	vertical-align: middle;
+	cursor: pointer;
 }
 
 #task-list input[type=checkbox] + .checkbox:before {
@@ -179,10 +195,18 @@ body {
 	display: block;
 }
 
+.checkbox:hover,
+#task-list input[type=checkbox]:focus + .checkbox,
+#task-list .icon-trash:hover,
+#task-list .icon-trash:focus {
+	border-color: hsl(192, 100%, 43%);
+}
 
 
-/* Print icon
--------------------------------------------*/
+
+/*
+	Print icon
+*/
 
 .left {
 	width: 100%;
