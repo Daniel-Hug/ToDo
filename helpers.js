@@ -23,6 +23,12 @@
 		}
 	};
 
+	$.pad = function(n, width, z) {
+		z = z || '0';
+		n = n + '';
+		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+	};
+
 
 	// DOM Helpers:
 
@@ -50,6 +56,7 @@
 		buildNode: function buildNode(nodeData) {
 			if (typeof nodeData === 'string')
 				return document.createTextNode(nodeData);
+			if (nodeData.appendChild) return nodeData;
 			var el = document.createElement(nodeData.el || 'div');
 			for (var attr in nodeData) {
 				if (['el', 'kid', 'kids'].indexOf(attr) === -1) {

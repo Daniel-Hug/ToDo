@@ -9,14 +9,16 @@
 
 	// Pull in ToDo list data from localStorage
 	window.tasks = $.storage.get('ToDoList') || [
-		{done: false, title: 'Add tasks to your ToDo list.'},
-		{done: false, title: 'Print them off.'},
-		{done: false, title: "Mark em' off one by one."}
+		{done: false, title: 'add tasks to your ToDo list'},
+		{done: false, title: 'print them off'},
+		{done: false, title: "mark em' off one by one"}
 	];
 
 
 	// task renderer
 	function renderTask(taskObj) {
+		var timer = null;
+
 		// Create ToDo DOM
 		// <li>
 		//     <div>
@@ -28,14 +30,19 @@
 		//         </div>
 		//     </div>
 		// </li>
+		var facadeBox = $.DOM.buildNode({ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] });
+		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'text', _className: 'inpt due-input-h', placeholder: '00', maxlength: 2 });
+		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'text', _className: 'inpt due-input-m', placeholder: '00', maxlength: 2 });
+		var dueStartBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-start', kid: '▶' });
+		var duePauseBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-pause hidden', on_click: [pauseDue], kid: 'll' });
+		var titleEl = $.DOM.buildNode({ _contentEditable: true, kid: taskObj.title, on_input: [titleEdit] });
 		return $.DOM.buildNode({
 			el: 'li', kids: [
-				{ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] },
-				{ _className: 'facade'},
-				{ el: 'button', _className: 'icon-trash', on_click: [deleteTodo] },
-				{ _className: 'title', kid: 
-					{ _contentEditable: true, kid: taskObj.title, on_input: [titleEdit] }
-				}
+				facadeBox,
+				{ _className: 'facade mini'},
+				{ el: 'button', _className: 'btn mini dltBtn icon-trash', on_click: [deleteTodo] },
+				{ _className: 'title', kid: titleEl },
+				{ el: 'form', _className: 'due-box', on_submit: [startDue], kids: [dueInputH, ':', dueInputM, dueStartBtn, duePauseBtn]}
 			]
 		});
 
@@ -54,9 +61,49 @@
 		function deleteTodo() {
 			var taskIndex = tasks.indexOf(taskObj);
 			tasks.splice(taskIndex, 1);
-			var li = this.parentNode.parentNode;
+			var li = this.parentNode;
 			li.parentNode.removeChild(li);
 			$.storage.set('ToDoList', tasks);
+		}
+
+		function tick() {
+			var m = +dueInputM.value;
+			var h = +dueInputH.value;
+			if (m) {
+				if (!--m && !h) {
+					pauseDue();
+					dueInputM.value = '';
+					dueInputM.focus();
+					if (confirm('Did you ' + titleEl.textContent + '?')) {
+						facadeBox.checked = true;
+						check.call(facadeBox);
+					}
+				}
+				else dueInputM.value = $.pad(m, 2);
+				return;
+			}
+			if (h) {
+				dueInputH.value = h - 1;
+				dueInputM.value = 59;
+				return;
+			}
+			pauseDue();
+		}
+
+		function startDue(event) {
+			event.preventDefault();
+			if (timer !== null) return;
+			timer = setInterval(tick, 1000);
+			dueStartBtn.classList.add('hidden');
+			duePauseBtn.classList.remove('hidden');
+		}
+
+		function pauseDue(event) {
+			if (event) event.preventDefault();
+			clearInterval(timer);
+			timer = null;
+			duePauseBtn.classList.add('hidden');
+			dueStartBtn.classList.remove('hidden');
 		}
 	}
 

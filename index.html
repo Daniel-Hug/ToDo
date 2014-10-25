@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>ToDo</title>
+		<meta name="viewport" content="width=device-width">
 		<link rel="icon" href="favicon.ico">
 		<link rel="stylesheet" href="styles.css">
 		<link rel="stylesheet" href="fonts/fonts.css">
@@ -11,12 +12,12 @@
 		<div class="toolbar">
 			<div class="left">
 				<form id="new-task-form">
-					<input type="text" id="task-name-field" placeholder="e.g. Walk the dog" required>
-					<button><span class="icon">+</span><span class="icon-text">Add</span></button>
+					<input type="text" class="inpt" id="task-name-field" placeholder="e.g. Walk the dog" required>
+					<button class="btn"><span class="icon">+</span><span class="icon-text">Add</span></button>
 				</form>
 			</div>
 			<div class="right">
-				<button id="print-button" title="Print ToDo list"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="24px" height="24px" viewBox="0 0 100 100">
+				<button class="btn" id="print-button" title="Print ToDo list"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="24px" height="24px" viewBox="0 0 100 100">
 					<g>
 						<rect x="31" y="58" fill="#000000" width="38" height="6"/>
 						<rect x="31" y="72" fill="#000000" width="38" height="6"/>

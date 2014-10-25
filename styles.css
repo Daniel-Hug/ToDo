@@ -22,13 +22,25 @@ input[type=radio] {
 	cursor: pointer;
 }
 
+form {
+	margin: 0;
+}
+
 
 
 /*
 	theme
 */
 
-input[type=text], button {
+.invisible {
+	visibility: hidden;
+}
+
+.hidden {
+	display: none;
+}
+
+.inpt, .btn {
 	border: 1px solid;
 	margin: 0;
 	font: inherit;
@@ -39,12 +51,21 @@ input[type=text], button {
 	transition: box-shadow 0.2s ease-out;
 }
 
-button {
+.btn {
 	background: white;
+	cursor: pointer;
 }
 
-button:active,
-input[type=text]:focus {
+.mini {
+	border: 2px solid;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	vertical-align: middle;
+}
+
+.btn:active,
+.inpt[type=text]:focus {
 	box-shadow:
 		inset  0   2px 0 rgba(0, 0, 0, 0.02),
 		inset  1px 2px 0 rgba(0, 0, 0, 0.08),
@@ -52,10 +73,10 @@ input[type=text]:focus {
 		inset  0   3px 0 rgba(0, 0, 0, 0.06);
 }
 
-button:hover,
-button:focus,
-input[type=text]:hover,
-input[type=text]:focus {
+.btn:hover,
+.btn:focus,
+.inpt:hover,
+.inpt:focus {
 	border-color: rgb(0, 175, 219);
 	outline: 0;
 }
@@ -126,13 +147,14 @@ button .icon-text {
 }
 
 #task-list li {
-	padding: 6px 0;
+	margin: 10px 0;
+	position: relative;
 }
 
 #task-list .title {
 	width: 100%;
-	padding-left: 76px;
-	padding-right: 1px;
+	padding-left: 76px; /* (28 + 10) * 2 */
+	padding-right: 109px;
 	line-height: 28px;
 	vertical-align: middle;
 	cursor: text;
@@ -158,24 +180,44 @@ button .icon-text {
 	outline-style: solid;
 }
 
-.checkbox,
-#task-list .icon-trash {
+.dltBtn {
 	float: left;
-	border: 2px solid;
-	width: 28px;
-	height: 28px;
-	margin: 0;
-	padding: 0;
-	margin-right: 10px;
-	vertical-align: middle;
-	cursor: pointer;
 }
 
-#task-list .icon-trash:hover,
-#task-list .icon-trash:focus {
+.dltBtn:hover,
+.dltBtn:focus {
 	border-color: rgb(0, 175, 219);
 }
 
+.due-box {
+	width: 99px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-align: right;
+}
+
+.facade-box:checked ~ .due-box {
+	display: none;
+}
+
+.due-input-h,
+.due-input-m {
+	width: 28px;
+	height: 28px;
+	padding: 2px 0 1px;
+	border-color: transparent;
+}
+
+.due-input-h {
+	text-align: right;
+}
+
+.due-start,
+.due-pause {
+	float: right;
+	margin-left: 10px;
+}
 
 
 /*
@@ -196,11 +238,7 @@ button .icon-text {
 
 .facade-box + .facade {
 	float: left;
-	width: 28px;
-	height: 28px;
-	border: 2px solid;
 	margin-left: -38px;
-	vertical-align: middle;
 }
 
 .facade-box + .facade:before {
