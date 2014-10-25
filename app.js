@@ -31,8 +31,9 @@
 		//     </div>
 		// </li>
 		var facadeBox = $.DOM.buildNode({ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] });
-		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'text', _className: 'inpt due-input-h', placeholder: '00', maxlength: 2 });
-		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'text', _className: 'inpt due-input-m', placeholder: '00', maxlength: 2 });
+		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-h', placeholder: 'hh', max: 99 });
+		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', max: 99 });
+		var dueSec = $.DOM.buildNode({ el: 'span', _className: 'due-sec' });
 		var dueStartBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-start', kid: '▶' });
 		var duePauseBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-pause hidden', on_click: [pauseDue], kid: 'll' });
 		var titleEl = $.DOM.buildNode({ _contentEditable: true, kid: taskObj.title, on_input: [titleEdit] });
@@ -70,32 +71,33 @@
 			var m = +dueInputM.value;
 			var h = +dueInputH.value;
 			if (m) {
-				if (!--m && !h) {
+				if (!(--m || h)) {
 					pauseDue();
+					dueInputH.value = '';
 					dueInputM.value = '';
-					dueInputM.focus();
+					dueInputH.focus();
 					if (confirm('Did you ' + titleEl.textContent + '?')) {
 						facadeBox.checked = true;
 						check.call(facadeBox);
 					}
 				}
 				else dueInputM.value = $.pad(m, 2);
-				return;
 			}
-			if (h) {
+			else if (h) {
 				dueInputH.value = h - 1;
 				dueInputM.value = 59;
-				return;
 			}
-			pauseDue();
+			else pauseDue();
 		}
 
 		function startDue(event) {
 			event.preventDefault();
 			if (timer !== null) return;
-			timer = setInterval(tick, 1000);
+			timer = setInterval(tick, 1000 * 60);
 			dueStartBtn.classList.add('hidden');
 			duePauseBtn.classList.remove('hidden');
+			dueInputH.disabled = true;
+			dueInputM.disabled = true;
 		}
 
 		function pauseDue(event) {
@@ -104,6 +106,8 @@
 			timer = null;
 			duePauseBtn.classList.add('hidden');
 			dueStartBtn.classList.remove('hidden');
+			dueInputH.disabled = false;
+			dueInputM.disabled = false;
 		}
 	}
 

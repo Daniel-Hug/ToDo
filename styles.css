@@ -65,7 +65,7 @@ form {
 }
 
 .btn:active,
-.inpt[type=text]:focus {
+.inpt:focus {
 	box-shadow:
 		inset  0   2px 0 rgba(0, 0, 0, 0.02),
 		inset  1px 2px 0 rgba(0, 0, 0, 0.08),
@@ -207,6 +207,18 @@ button .icon-text {
 	height: 28px;
 	padding: 2px 0 1px;
 	border-color: transparent;
+}
+
+.due-input-h::-webkit-inner-spin-button,
+.due-input-m::-webkit-inner-spin-button {
+	display: none;
+}
+
+.due-input-h:disabled,
+.due-input-m:disabled {
+	border-color: transparent;
+	color: inherit;
+	background: none;
 }
 
 .due-input-h {
