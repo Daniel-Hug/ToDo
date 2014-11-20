@@ -190,7 +190,7 @@ button .icon-text {
 }
 
 .due-box {
-	width: 99px;
+	width: 114px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -231,6 +231,14 @@ button .icon-text {
 	margin-left: 10px;
 }
 
+.due-sec {
+	margin-left: -8px;
+}
+
+.due-sec:before {
+	content: ':';
+	margin-right: 1px;
+}
 
 /*
 	Facade box (custom checkbox)
