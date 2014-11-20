@@ -53,8 +53,10 @@
 		//     </div>
 		// </li>
 		var facadeBox = $.DOM.buildNode({ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] });
-		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-h', placeholder: 'hh', max: 99 });
-		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', max: 99 });
+		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-h', placeholder: 'hh', max: 99, on_input: [function() {
+			if (this.value && !dueInputM.value) dueInputM.value = '00';
+		}] });
+		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', max: 99, _required: true });
 		var dueSec = $.DOM.buildNode({ el: 'span', _className: 'due-sec' });
 		var dueStartBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-start', kid: '▶' });
 		var duePauseBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-pause hidden', on_click: [pauseDue], kid: 'll' });
@@ -93,6 +95,7 @@
 		function startDue(event) {
 			event.preventDefault();
 			if (timer.going) return;
+			dueInputM.value = $.pad(dueInputM.value, 2);
 			timer.start();
 			dueStartBtn.classList.add('hidden');
 			duePauseBtn.classList.remove('hidden');
