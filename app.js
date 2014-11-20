@@ -114,6 +114,7 @@
 			dueInputM.value = $.pad(dueInputM.value, 2);
 			timer.start();
 			if (!+dueInputH.value) dueInputH.value = '00';
+			else dueInputH.value = parseInt(dueInputH.value, 10);
 			dueStartBtn.classList.add('hidden');
 			duePauseBtn.classList.remove('hidden');
 			dueInputH.disabled = true;
