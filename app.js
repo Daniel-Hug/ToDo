@@ -79,6 +79,7 @@
 		}
 
 		function check() {
+			pauseDue();
 			taskObj.done = this.checked;
 			$.storage.set('ToDoList', tasks);
 		}
