@@ -4,6 +4,37 @@
 	window.$ = {};
 
 
+	$.timeout = function(callback, delay, scope, args) {
+		var id,
+		timer = {
+			callback: callback,
+			delay: delay,
+			going: false,
+			start: function() {
+				if (timer.going) return;
+				timer.going = true;
+				id = setTimeout(function() {
+					timer.going = false;
+					timer.callback.apply(scope, args);
+				}, timer.delay);
+			},
+			stop: function() {
+				clearTimeout(id);
+				timer.going = false;
+			}
+		};
+		return timer;
+	};
+
+	$.interval = function(callback, delay, scope, args) {
+		var timer = $.timeout(function() {
+			callback.apply(scope, args);
+			timer.start();
+		}, delay);
+		return timer;
+	};
+
+
 	// localStorage + JSON wrapper:
 	$.storage = {
 		get: function(prop) {

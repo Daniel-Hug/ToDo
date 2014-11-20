@@ -17,7 +17,29 @@
 
 	// task renderer
 	function renderTask(taskObj) {
-		var timer = null;
+		var timer = $.interval(function tick() {
+			var m = +dueInputM.value;
+			var h = +dueInputH.value;
+			if (m) {
+				if (!(--m || h)) {
+					pauseDue();
+					dueInputH.value = '';
+					dueInputM.value = '';
+					dueInputH.focus();
+					if (confirm('Did you ' + titleEl.textContent + '?')) {
+						facadeBox.checked = true;
+						check.call(facadeBox);
+					}
+				}
+				else dueInputM.value = $.pad(m, 2);
+			}
+			else if (h) {
+				dueInputH.value = h - 1;
+				dueInputM.value = 59;
+			}
+			else pauseDue();
+		}, 1000 * 60);
+
 
 		// Create ToDo DOM
 		// <li>
@@ -67,33 +89,11 @@
 			$.storage.set('ToDoList', tasks);
 		}
 
-		function tick() {
-			var m = +dueInputM.value;
-			var h = +dueInputH.value;
-			if (m) {
-				if (!(--m || h)) {
-					pauseDue();
-					dueInputH.value = '';
-					dueInputM.value = '';
-					dueInputH.focus();
-					if (confirm('Did you ' + titleEl.textContent + '?')) {
-						facadeBox.checked = true;
-						check.call(facadeBox);
-					}
-				}
-				else dueInputM.value = $.pad(m, 2);
-			}
-			else if (h) {
-				dueInputH.value = h - 1;
-				dueInputM.value = 59;
-			}
-			else pauseDue();
-		}
 
 		function startDue(event) {
 			event.preventDefault();
-			if (timer !== null) return;
-			timer = setInterval(tick, 1000 * 60);
+			if (timer.going) return;
+			timer.start();
 			dueStartBtn.classList.add('hidden');
 			duePauseBtn.classList.remove('hidden');
 			dueInputH.disabled = true;
@@ -102,8 +102,7 @@
 
 		function pauseDue(event) {
 			if (event) event.preventDefault();
-			clearInterval(timer);
-			timer = null;
+			timer.stop();
 			duePauseBtn.classList.add('hidden');
 			dueStartBtn.classList.remove('hidden');
 			dueInputH.disabled = false;
