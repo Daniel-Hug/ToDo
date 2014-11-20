@@ -54,9 +54,14 @@
 		// </li>
 		var facadeBox = $.DOM.buildNode({ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] });
 		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-h', placeholder: 'hh', max: 99, on_input: [function() {
-			if (this.value && !dueInputM.value) dueInputM.value = '00';
+			if (this.value) {
+				if (!+dueInputM.value) dueInputM.value = '00';
+				dueInputM.removeAttribute('min');
+			} else {
+				dueInputM.setAttribute('min', 1);
+			}
 		}] });
-		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', max: 99, _required: true });
+		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', min: 1, max: 99, _required: true });
 		var dueSec = $.DOM.buildNode({ el: 'span', _className: 'due-sec' });
 		var dueStartBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-start', kid: '▶' });
 		var duePauseBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-pause hidden', on_click: [pauseDue], kid: 'll' });
