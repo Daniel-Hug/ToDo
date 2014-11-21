@@ -60,7 +60,9 @@
 		//     </div>
 		// </li>
 		var facadeBox = $.DOM.buildNode({ el: 'input', type: 'checkbox', _className: 'facade-box', _checked: !!taskObj.done, on_change: [check] });
-		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-h', placeholder: 'hh', max: 99, on_input: [function() {
+		var dueInputH = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-h', placeholder: 'hh', _value: taskObj.timeH || '', max: 99, on_input: [function() {
+			taskObj.timeH = this.value;
+			$.storage.set('ToDoList', tasks);
 			if (+this.value) {
 				if (!+dueInputM.value) dueInputM.value = '00';
 				dueInputM.removeAttribute('min');
@@ -68,8 +70,10 @@
 				dueInputM.setAttribute('min', 1);
 			}
 		}] });
-		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', min: 1, max: 99, _required: true, on_input: [function() {
-			
+		var dueInputM = $.DOM.buildNode({ el: 'input', type: 'number', _className: 'inpt due-input-m', placeholder: 'mm', _value: $.pad(taskObj.timeM, 2) || '', min: 1, max: 99, _required: true, on_input: [function() {
+			var timeM = parseInt(dueSec.textContent, 10);
+			taskObj.timeM = timeM >= 1 ? this.value + 1 : this.value;
+			$.storage.set('ToDoList', tasks);
 		}] });
 		var dueSec = $.DOM.buildNode({ el: 'span', _className: 'due-sec', kid: '00', _hidden: true });
 		var dueStartBtn = $.DOM.buildNode({ el: 'button', _className: 'btn mini due-start', kid: '▶' });
@@ -113,7 +117,7 @@
 			dueSec.hidden = false;
 			dueInputM.value = $.pad(dueInputM.value, 2);
 			timer.start();
-			if (!+dueInputH.value) dueInputH.value = '00';
+			if (!+dueInputH.value) dueInputH.value = '0';
 			else dueInputH.value = parseInt(dueInputH.value, 10);
 			dueStartBtn.classList.add('hidden');
 			duePauseBtn.classList.remove('hidden');
